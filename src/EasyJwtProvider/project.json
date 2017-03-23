@@ -1,0 +1,20 @@
+{
+  "version": "1.0.0-*",
+
+  "dependencies": {
+    "Microsoft.AspNetCore.Authentication.JwtBearer": "1.1.1",
+    "NETStandard.Library": "1.6.1"
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50"
+    },
+    "net451": {
+
+    }
+  },
+  "buildOptions": {
+    "xmlDoc": true
+  }
+}

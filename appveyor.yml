@@ -1,0 +1,29 @@
+environment:
+  build_version: 1.0.0  
+  nuget_suffix: Beta%APPVEYOR_BUILD_NUMBER%
+  COVERALLS_REPO_TOKEN:
+    secure: +OWHMxYHaMp6iRNNLZcMZq423PhYWxMky+B2C0p3U8v7tpdoKRMzWZKJ1LuYO60O
+version: $(build_version)-{build}
+configuration: Release
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '$(build_version).0'
+  assembly_file_version: '$(build_version).{build}'
+  assembly_informational_version: '$(build_version)'
+before_build:
+ - cmd: dotnet restore src/EasyJwtProvider/project.json
+ - cmd: dotnet restore tests/EasyJwtProvider.Tests/project.json
+build:
+  project: EasyJwtProvider.sln
+  publish_nuget: true
+  publish_nuget_symbols: true
+  verbosity: minimal
+after_build:
+- cmd: dotnet pack src/EasyJwtProvider/project.json -o . -c Release --version-suffix %nuget_suffix%
+test_script:
+- cmd: cd tests/EasyJwtProvider.Tests/
+- cmd: CodeCoverageAppVeyor.cmd
+artifacts:
+- path: EasyJwtProvider*.nupkg
+  name: EasyJwtProvider

@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FCD4CAF5-95F9-456D-8E03-FED868356725}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{78F99034-ACB3-40AA-B337-70DB31BF8B54}"
+	ProjectSection(SolutionItems) = preProject
+		appveyor.yml = appveyor.yml
+		global.json = global.json
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EasyJwtProvider", "src\EasyJwtProvider\EasyJwtProvider.xproj", "{3B3F6DD0-34AE-4EF2-8919-E779E6539990}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9FACCD95-B0A4-4BB1-A790-70CEBFF4C8C9}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "EasyJwtProvider.Tests", "tests\EasyJwtProvider.Tests\EasyJwtProvider.Tests.xproj", "{124A9182-8A8F-4369-8440-3E88C6C018E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3B3F6DD0-34AE-4EF2-8919-E779E6539990}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B3F6DD0-34AE-4EF2-8919-E779E6539990}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B3F6DD0-34AE-4EF2-8919-E779E6539990}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B3F6DD0-34AE-4EF2-8919-E779E6539990}.Release|Any CPU.Build.0 = Release|Any CPU
+		{124A9182-8A8F-4369-8440-3E88C6C018E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{124A9182-8A8F-4369-8440-3E88C6C018E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{124A9182-8A8F-4369-8440-3E88C6C018E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{124A9182-8A8F-4369-8440-3E88C6C018E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3B3F6DD0-34AE-4EF2-8919-E779E6539990} = {FCD4CAF5-95F9-456D-8E03-FED868356725}
+		{124A9182-8A8F-4369-8440-3E88C6C018E2} = {9FACCD95-B0A4-4BB1-A790-70CEBFF4C8C9}
+	EndGlobalSection
+EndGlobal
