@@ -8,7 +8,7 @@ app.UseJwtProvider(new JwtOptions(AuthenticateFunction));
 
 app.UseMvc();
 
-private async Task<AuthenticationResult> AuthenticateFunction(AuthenticateRequest request)
+private async Task<AuthenticationResult> AuthenticateFunction(AuthenticationRequest request)
 {
     return new AuthenticationResult { Authenticated = true };
 }
