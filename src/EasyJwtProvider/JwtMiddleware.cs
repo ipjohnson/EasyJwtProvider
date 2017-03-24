@@ -145,6 +145,7 @@ namespace EasyJwtProvider
                     {
                         var authRequest = new AuthenticationRequest
                         {
+                            HttpContext = context,
                             Username = dataObject[Options.UsernameString]?.ToString(),
                             Password = dataObject[Options.PasswordString]?.ToString(),
                             Tenant = dataObject[Options.TenantString]?.ToString()
@@ -188,6 +189,7 @@ namespace EasyJwtProvider
             {
                 var authRequest = new AuthenticationRequest
                 {
+                    HttpContext = context,
                     Username = context.Request.Form[Options.UsernameString],
                     Password = context.Request.Form[Options.PasswordString],
                     Tenant = context.Request.Form[Options.TenantString]
