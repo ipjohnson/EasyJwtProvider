@@ -73,5 +73,25 @@ namespace EasyJwtProvider
         /// Configuration information for refreshing tokens
         /// </summary>
         public JwtRefreshTokenOptions RefreshTokenOptions { get; set; }
+
+        /// <summary>
+        /// String that is expected in the authentication request payload, default is "username" other options could be client_id
+        /// </summary>
+        public string UsernameString { get; set; } = "username";
+
+        /// <summary>
+        /// String that is expected in the authentication request payload, default is "username" other options could be client_secret
+        /// </summary>
+        public string PasswordString { get; set; } = "password";
+
+        /// <summary>
+        /// Optional string that can be in the authentication request payload, default is tenant
+        /// </summary>
+        public string TenantString { get; set; } = "tenant";
+
+        /// <summary>
+        /// When true "sub" is used as the property name in the JWT vs. http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier
+        /// </summary>
+        public bool UseSubForUsername { get; set; } = true;
     }
 }

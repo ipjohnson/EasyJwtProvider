@@ -145,9 +145,9 @@ namespace EasyJwtProvider
                     {
                         var authRequest = new AuthenticationRequest
                         {
-                            Username = dataObject["username"]?.ToString(),
-                            Password = dataObject["password"]?.ToString(),
-                            Tenant = dataObject["tenant"]?.ToString()
+                            Username = dataObject[Options.UsernameString]?.ToString(),
+                            Password = dataObject[Options.PasswordString]?.ToString(),
+                            Tenant = dataObject[Options.TenantString]?.ToString()
                         };
 
                         return ProcessAuthenticationRequest(context, authRequest);
@@ -168,8 +168,7 @@ namespace EasyJwtProvider
                 }
             }
         }
-
-
+        
         /// <summary>
         /// Process request with form encoding
         /// </summary>
@@ -189,9 +188,9 @@ namespace EasyJwtProvider
             {
                 var authRequest = new AuthenticationRequest
                 {
-                    Username = context.Request.Form["username"],
-                    Password = context.Request.Form["password"],
-                    Tenant = context.Request.Form["tenant"]
+                    Username = context.Request.Form[Options.UsernameString],
+                    Password = context.Request.Form[Options.PasswordString],
+                    Tenant = context.Request.Form[Options.TenantString]
                 };
 
                 return ProcessAuthenticationRequest(context, authRequest);
@@ -261,6 +260,8 @@ namespace EasyJwtProvider
             {
                 var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 
+                jwtSecurityTokenHandler.InboundClaimTypeMap[JwtRegisteredClaimNames.Sub] = ClaimTypes.Name;
+
                 SecurityToken originalToken;
 
                 var claimPrincipal = jwtSecurityTokenHandler.ValidateToken(refreshToken.AccessToken, ValidationParameters, out originalToken);
@@ -327,7 +328,7 @@ namespace EasyJwtProvider
                 now,
                 now.Add(Options.Expiration),
                 Options.SigningCredentials);
-
+            
             var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
 
             object responseObject;
