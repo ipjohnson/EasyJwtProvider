@@ -21,8 +21,15 @@ namespace EasyJwtProvider
     /// </summary>
     public class JwtMiddleware
     {
-        private const string AccessTokenStr = "access_token";
-        private const string RefreshTokenStr = "refresh_token";
+        /// <summary>
+        /// access_token
+        /// </summary>
+        protected const string AccessTokenStr = "access_token";
+
+        /// <summary>
+        /// refresh_token
+        /// </summary>
+        protected const string RefreshTokenStr = "refresh_token";
 
         /// <summary>
         /// Options for provider
@@ -57,6 +64,8 @@ namespace EasyJwtProvider
                                        IssuerSigningKey = Options.SigningCredentials.Key,
                                        ValidateLifetime = false
                                    };
+
+            Serializer = new JsonSerializer();
         }
 
         /// <summary>
@@ -119,11 +128,6 @@ namespace EasyJwtProvider
         /// <returns></returns>
         protected virtual Task ProcessJsonData(HttpContext context, string grantTypeString)
         {
-            if (Serializer == null)
-            {
-                Serializer = new JsonSerializer();
-            }
-
             using (var textReader = new StreamReader(context.Request.Body))
             {
                 using (var jsonReader = new JsonTextReader(textReader))
@@ -192,6 +196,7 @@ namespace EasyJwtProvider
 
                 return ProcessAuthenticationRequest(context, authRequest);
             }
+
             if (grantTypeString == RefreshTokenStr)
             {
                 var refreshToken = new RefreshTokenRequest
@@ -261,7 +266,7 @@ namespace EasyJwtProvider
                 var claimPrincipal = jwtSecurityTokenHandler.ValidateToken(refreshToken.AccessToken, ValidationParameters, out originalToken);
 
                 var now = DateTime.UtcNow;
-                var refresh = AuthenticateRefreshToken(claimPrincipal, originalToken, refreshToken.RefreshToken, now);
+                var refresh = await AuthenticateRefreshToken(claimPrincipal, originalToken, refreshToken.RefreshToken, now);
 
                 if (refresh && Options.RefreshTokenOptions.RefreshToken != null)
                 {
@@ -297,16 +302,14 @@ namespace EasyJwtProvider
         /// <param name="refreshToken"></param>
         /// <param name="now"></param>
         /// <returns></returns>
-        protected virtual bool AuthenticateRefreshToken(ClaimsPrincipal claimPrincipal, SecurityToken originalToken, string refreshToken, DateTime now)
+        protected virtual async Task<bool> AuthenticateRefreshToken(ClaimsPrincipal claimPrincipal, SecurityToken originalToken, string refreshToken, DateTime now)
         {
             if (originalToken.ValidTo < now.Subtract(Options.RefreshTokenOptions.RefreshWindow))
             {
                 return false;
             }
 
-            var validToken = GenerateRefreshToken(claimPrincipal.Claims.ToArray(), originalToken.Id);
-
-            return refreshToken == validToken;
+            return refreshToken == await GenerateRefreshToken(claimPrincipal.Claims.ToArray(), originalToken.Id);
         }
 
         /// <summary>
@@ -340,18 +343,24 @@ namespace EasyJwtProvider
             else
             {
                 var uniqueId = claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value;
-
+                
                 responseObject = new
                 {
                     access_token = encodedToken,
                     expires_in = (int)Options.Expiration.TotalSeconds,
-                    refresh_token = GenerateRefreshToken(claims, uniqueId)
+                    refresh_token = await GenerateRefreshToken(claims, uniqueId)
                 };
             }
 
             context.Response.ContentType = "application/json";
 
-            await context.Response.WriteAsync(JsonConvert.SerializeObject(responseObject));
+            using (var textWriter = new StreamWriter(context.Response.Body))
+            {
+                using (var jsonWriter = new JsonTextWriter(textWriter))
+                {
+                    Serializer.Serialize(jsonWriter, responseObject);
+                }
+            }
         }
 
         /// <summary>
@@ -385,9 +394,9 @@ namespace EasyJwtProvider
         /// <param name="claims"></param>
         /// <param name="tokenId"></param>
         /// <returns></returns>
-        protected virtual string GenerateRefreshToken(Claim[] claims, string tokenId)
+        protected virtual async Task<string> GenerateRefreshToken(Claim[] claims, string tokenId)
         {
-            var salt = Options.RefreshTokenOptions.SaltProvider(claims);
+            var salt = await Options.RefreshTokenOptions.SaltProvider(claims);
 
             var unencryptedbytes = Encoding.UTF8.GetBytes($"{tokenId}|{salt}");
 
