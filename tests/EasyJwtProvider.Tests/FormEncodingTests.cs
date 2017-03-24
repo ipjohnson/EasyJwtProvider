@@ -38,7 +38,7 @@ namespace EasyJwtProvider.Tests
                 Assert.Equal("user", request.Username);
                 Assert.Equal("pass", request.Password);
 
-                return Task.FromResult(new AuthenticationResult { Authenticated = true });
+                return Task.FromResult<AuthenticationResult>(true);
             }, SigningCredentials()),
             null);
 
@@ -73,7 +73,7 @@ namespace EasyJwtProvider.Tests
                 Assert.Equal("user", request.Username);
                 Assert.Equal("pass", request.Password);
 
-                return Task.FromResult(new AuthenticationResult { Authenticated = true });
+                return Task.FromResult<AuthenticationResult>(true);
             }, signCredentials)
             {
                 RefreshTokenOptions = new JwtRefreshTokenOptions(signCredentials, claims => Task.FromResult("Some Salt"))
@@ -117,7 +117,7 @@ namespace EasyJwtProvider.Tests
                 Assert.Equal("user", request.Username);
                 Assert.Equal("pass", request.Password);
 
-                return Task.FromResult(new AuthenticationResult { Authenticated = true });
+                return Task.FromResult<AuthenticationResult>(true);
             }, signCredentials)
             {
                 RefreshTokenOptions = new JwtRefreshTokenOptions(signCredentials, claims => Task.FromResult("Some Salt"))
@@ -161,11 +161,7 @@ namespace EasyJwtProvider.Tests
         }
 
         #endregion
-
-        #region 
-
-        #endregion
-
+        
         #region Utilities
 
 
