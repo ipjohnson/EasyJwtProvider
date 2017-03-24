@@ -4,7 +4,7 @@
   "dependencies": {
     "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "EasyJwtProvider": "1.0.0-*",
-    "NETStandard.Library": "1.6.0",
+    "NETStandard.Library": "1.6.1",
     "SimpleFixture.NSubstitute": "2.0.2",
     "SimpleFixture.xUnit": "2.0.2"
   },
