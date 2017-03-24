@@ -20,6 +20,11 @@ namespace EasyJwtProvider
         /// <param name="signingCredentials">credentials for signing jwt</param>
         public JwtProviderOptions(Func<AuthenticationRequest, Task<AuthenticationResult>> authenticateUser, SigningCredentials signingCredentials)
         {
+            if (authenticateUser == null)
+            {
+                throw new ArgumentNullException(nameof(authenticateUser));
+            }
+
             AuthenticateUser = authenticateUser;
             SigningCredentials = signingCredentials;
         }
