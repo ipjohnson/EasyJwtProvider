@@ -214,8 +214,7 @@ namespace EasyJwtProvider.Tests
             Assert.NotEqual(token.access_token, token2.access_token);
             Assert.NotEqual(token.refresh_token, token2.refresh_token);
         }
-
-
+        
         [Theory]
         [AutoData]
         public void Json_Data_Auth_Refresh_Valid_Seperate_Path(HttpContext context)

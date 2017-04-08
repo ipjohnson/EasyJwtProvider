@@ -19,6 +19,39 @@ namespace EasyJwtProvider.Tests
     [SubFixtureInitialize]
     public class FormEncodingTests
     {
+        #region Non MatchingTest
+        [Theory]
+        [AutoData]
+        public void Non_Matching_Request(HttpContext context)
+        {
+            context.Request.Path = "/some-other-request";
+            context.Request.Method = HttpMethods.Post;
+            context.Request.HasFormContentType.Returns(true);
+            context.Request.Form = new FormCollection(new Dictionary<string, StringValues> { { "username", "user" }, { "password", "pass" } });
+
+            var outstream = new MemoryStream();
+
+            context.Response.Body.Returns(outstream);
+
+            var middleware =
+                new JwtMiddleware(new JwtProviderOptions(request => Task.FromResult<AuthenticationResult>(true), SigningCredentials()), null);
+
+            var taskCalled = false;
+
+            var task = middleware.Execute(context, () =>
+            {
+                taskCalled = true;
+
+                return Task.FromResult(0);
+            });
+
+            task.Wait();
+
+            Assert.True(taskCalled);
+        }
+
+        #endregion
+        
         #region Form Tests
         [Theory]
         [AutoData]
