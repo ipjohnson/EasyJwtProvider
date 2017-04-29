@@ -15,6 +15,6 @@ private async Task<AuthenticationResult> AuthenticateFunction(AuthenticationRequ
 
 ```
 
-[![Build status](https://ci.appveyor.com/api/projects/status/ni4e1w597vtekm1u?svg=true)](https://ci.appveyor.com/project/ipjohnson/easyjwtprovider) [![Coverage Status](https://coveralls.io/repos/github/ipjohnson/EasyJwtProvider/badge.svg?branch=master)](https://coveralls.io/github/ipjohnson/EasyJwtProvider?branch=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/ni4e1w597vtekm1u?svg=true)](https://ci.appveyor.com/project/ipjohnson/easyjwtprovider) [![Build Status](https://travis-ci.org/ipjohnson/EasyJwtProvider.svg?branch=master)](https://travis-ci.org/ipjohnson/EasyJwtProvider) [![Coverage Status](https://coveralls.io/repos/github/ipjohnson/EasyJwtProvider/badge.svg?branch=master)](https://coveralls.io/github/ipjohnson/EasyJwtProvider?branch=master)
 
 
