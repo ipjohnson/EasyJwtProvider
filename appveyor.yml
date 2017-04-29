@@ -1,6 +1,6 @@
 environment:
   build_version: 1.0.0  
-  nuget_suffix: Beta%APPVEYOR_BUILD_NUMBER%
+  Version: $(build_version)-Beta%APPVEYOR_BUILD_NUMBER%
   COVERALLS_REPO_TOKEN:
     secure: 0IqpIZenoOL1cxzTEiO6XzDbKEA8oWFu+CtUhSiiiQtIy5OT+byeiP7Iqb6RUo/F
 version: $(build_version)-{build}
@@ -12,18 +12,18 @@ assembly_info:
   assembly_file_version: '$(build_version).{build}'
   assembly_informational_version: '$(build_version)'
 before_build:
- - cmd: dotnet restore src/EasyJwtProvider/project.json
- - cmd: dotnet restore tests/EasyJwtProvider.Tests/project.json
+ - cmd: nuget EasyJwtProvider.sln
 build:
   project: EasyJwtProvider.sln
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: minimal
 after_build:
-- cmd: dotnet pack src/EasyJwtProvider/project.json -o . -c Release --version-suffix %nuget_suffix%
+- cmd: msbuild /t:pack src/EasyJwtProvider/EasyJwtProvider.csproj /p:Configuration=Release /p:IncludeSymbols=true /p:PackageOutputPath=..\..\
 test_script:
 - cmd: cd tests/EasyJwtProvider.Tests/
 - cmd: CodeCoverageAppVeyor.cmd
 artifacts:
 - path: EasyJwtProvider*.nupkg
   name: EasyJwtProvider
+os: Visual Studio 2017
