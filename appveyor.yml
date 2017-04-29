@@ -12,7 +12,7 @@ assembly_info:
   assembly_file_version: '$(build_version).{build}'
   assembly_informational_version: '$(build_version)'
 before_build:
- - cmd: nuget EasyJwtProvider.sln
+ - cmd: nuget restore EasyJwtProvider.sln
 build:
   project: EasyJwtProvider.sln
   publish_nuget: true
