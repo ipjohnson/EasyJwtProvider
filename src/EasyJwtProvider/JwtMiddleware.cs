@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -264,9 +262,7 @@ namespace EasyJwtProvider
 
                 jwtSecurityTokenHandler.InboundClaimTypeMap[JwtRegisteredClaimNames.Sub] = ClaimTypes.Name;
 
-                SecurityToken originalToken;
-
-                var claimPrincipal = jwtSecurityTokenHandler.ValidateToken(refreshToken.AccessToken, ValidationParameters, out originalToken);
+                var claimPrincipal = jwtSecurityTokenHandler.ValidateToken(refreshToken.AccessToken, ValidationParameters, out var originalToken);
 
                 var now = DateTime.UtcNow;
                 var refresh = await AuthenticateRefreshToken(claimPrincipal, originalToken, refreshToken.RefreshToken, now);
@@ -423,7 +419,7 @@ namespace EasyJwtProvider
         /// <returns></returns>
         protected virtual Task ReturnUnauthorize(HttpContext context)
         {
-            context.Response.StatusCode = 400;
+            context.Response.StatusCode = 401;
 
             return context.Response.WriteAsync("Invalid username/password");
         }
@@ -435,7 +431,7 @@ namespace EasyJwtProvider
         /// <returns></returns>
         protected virtual Task ReturnUnauthorizedRefresh(HttpContext context)
         {
-            context.Response.StatusCode = 400;
+            context.Response.StatusCode = 401;
 
             return context.Response.WriteAsync("Unauthotized refresh");
         }

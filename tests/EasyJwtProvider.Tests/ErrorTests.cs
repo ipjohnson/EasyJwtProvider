@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -163,7 +161,7 @@ namespace EasyJwtProvider.Tests
 
             task.Wait();
 
-            Assert.Equal(400, context.Response.StatusCode);
+            Assert.Equal(401, context.Response.StatusCode);
 
             var responseString = Encoding.UTF8.GetString(outstream.ToArray());
 
