@@ -18,8 +18,6 @@ build:
   publish_nuget: true
   publish_nuget_symbols: true
   verbosity: minimal
-after_build:
-- cmd: msbuild /t:pack src/EasyJwtProvider/EasyJwtProvider.csproj /p:Configuration=Release /p:IncludeSymbols=true /p:PackageOutputPath=..\..\
 test_script:
 - cmd: cd tests/EasyJwtProvider.Tests/
 - cmd: CodeCoverageAppVeyor.cmd
